@@ -1,0 +1,22 @@
+<%= form_with(model: cabin, local: true) do |form| %>
+  <% if cabin.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(cabin.errors.count, "error") %> prohibited this cabin from being saved:</h2>
+
+      <ul>
+        <% cabin.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :number %>
+    <%= form.number_field :number %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,16 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Import:</strong>
+  <%= @payment.import %>
+</p>
+
+
+
+<p>
+  <strong>Bill date:</strong>
+  <%= @payment.bill_date %>
+</p>
+
+<%= link_to 'Edit', edit_payment_path(@payment) %> |
+<%= link_to 'Back', payments_path %>

@@ -1,0 +1,66 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Payments</h1>
+
+<form action="/payments" method="GET">
+  FROM: <input type="date" name="from" placeholder="From" value="<%= @from %>"/>
+  TO :<input type="date" name="to" placeholder="To" value="<%= @to %>"/>
+  <input type="submit", value="FILTER BY DATE" />  
+</form>
+
+<form action="/payments" method="GET">
+
+Person: <input type="person" name="person" placeholder="person" value="<%= @person %>"/>  
+
+Car: <input type="car" name="car" placeholder="car" value="<%= @car %>"/>  
+
+<input type="submit", value="Filter" />
+</form>
+
+<form action="/payments" method="GET">
+
+Cabin: <input type="cabin" name="cabin" placeholder="cabin" value="<%= @cabin %>"/>   
+
+<input type="submit", value="Filter" />
+</form>
+
+<table style="text-align: center">
+  <thead>
+    <tr>
+      <th><%= link_to "Amount", :sort => "amount" %></th>
+      <th>Amount</th>
+      <th>Import</th>
+      <th>Return</th>
+      <th>Person</th>   
+      <th>Car</th>
+      <th>Bill Date</th>
+      <th>Cabin</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @payments1.each do |payment| %>
+      <tr>
+        <td><%= payment.rate.amount %></td>
+        <td><%= payment.import %></td>
+        <td><%= payment.import - payment.rate.amount  %></td>
+        <td><%= payment.person.first_name %></td> 
+        <td><%= payment.rate.car.name %></td>
+        <td><%= payment.bill_date %></td>
+        <td><%= payment.person.cabin.number %></td>
+        <td><%= link_to 'Show', payment %></td>
+        <td><%= link_to 'Edit', edit_payment_path(payment) %></td>
+        <td><%= link_to 'Destroy', payment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+
+  <td><strong>Cash available: </strong><%= @totalprice %></td>
+</table>
+
+<br>
+
+<%= link_to 'New Payment', new_payment_path %>
+
+
