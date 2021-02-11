@@ -8,6 +8,8 @@ class PaymentsController < ApplicationController
 
     if params[:from].blank? and params[:to].blank? and params[:person].blank? and params[:car].blank? and params[:cabin].blank?
       @payments = Payment.all.paginate(:page => params[:page], :per_page => 50)
+      @payments = Payment.order(sort_column + ' ' + sort_direction).paginate(:page => params[:page], :per_page => 50)
+
     elsif params[:from] and params[:to]
       @payments = Payment.filterfromto(params[:from], params[:to]).paginate(:page => params[:page], :per_page => 50)
 
@@ -15,18 +17,24 @@ class PaymentsController < ApplicationController
       @payments = Payment.filterambos(params[:person], params[:car]).paginate(:page => params[:page], :per_page => 50)
 
     elsif params[:cabin]  #FILTRA POR CABIN
-      @payments = Payment.filtercabin(params[:cabin]).paginate(:page => params[:page], :per_page => 50)
-      
+      @payments = Payment.filtercabin(params[:cabin]).paginate(:page => params[:page], :per_page => 50)  
     end
 
-    @payments1 = Payment.order(params[:sort] + ' ' + params[:direction])
-    @totalprice = Payment.totalprice
-    @payments1 = Payment.all.order(bill_date: :desc)
-    
+    @totalprice = Payment.totalprice   
   end
 
   
+  def sort_column
+    Payment.column_names.include?(params[:sort]) ? params[:sort] : "import"
+    Payment.column_names.include?(params[:sort]) ? params[:sort] : "bill_date"
+
+  end
   
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ?  params[:direction] : "asc"
+  end
+
+
   # GET /payments/1 or /payments/1.json
   def show
   end
